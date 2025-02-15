@@ -7,6 +7,8 @@ import React from "react";
 import "../../styles/globals.css";
 // import Algeria from "@react-map/algeria";
 
+const images = ["/rayon1.png", "/rayon2.png", "/rayon3.png"];
+
 import {
   LineChart,
   Line,
@@ -14,6 +16,8 @@ import {
   YAxis,
   Tooltip,
   ResponsiveContainer,
+  BarChart,
+  Bar,
 } from "recharts";
 import { PieChart, Pie, Cell } from "recharts";
 
@@ -66,6 +70,25 @@ const salesData = [
   { month: "Jun", value: 14 },
 ];
 
+// Données des produits RAMY
+const ramyData = [
+  { name: "Pack Frutty", value: 8 },
+  { name: "Pack Ramy", value: 12 },
+  { name: "Ramy Gaz", value: 10 },
+  { name: "Water Fruits", value: 15 },
+  { name: "PET Boisson", value: 23 }, // Valeur mise en avant
+  { name: "PET Extra", value: 7 },
+];
+
+// Données des produits concurrents
+const competitorsData = [
+  { name: "RAMY", value: 15 },
+  { name: "Ngaous", value: 10 },
+  { name: "Hamoud", value: 12 },
+  { name: "Ifri", value: 8 },
+  { name: "Royal", value: 18 },
+  { name: "Autre", value: 10 },
+];
 export default function Dashboard() {
   return (
     <div className="flex w-screen h-screen">
@@ -189,13 +212,81 @@ export default function Dashboard() {
                 <h2 className="text-lg font-semibold">
                   Liste Des Photos Prises
                 </h2>
-                <div className="flex justify-center">
-                  <img
-                    src="/fridge.png"
-                    alt="Fridge"
-                    className="w-24 h-24 rounded-lg shadow"
-                  />
+                <div className="relative w-60 h-60 flex justify-center items-center">
+                  {images.map((src, index) => (
+                    <div
+                      key={index}
+                      className={`absolute transition-transform duration-300 rounded-2xl overflow-hidden shadow-lg ${
+                        index === 0
+                          ? "rotate-0 z-30"
+                          : index === 1
+                          ? "rotate-6 z-20"
+                          : "rotate-12 z-10"
+                      }`}
+                    >
+                      <img
+                        src={src}
+                        alt={`Image ${index + 1}`}
+                        className="h-56 cursor-pointer"
+                      />
+                    </div>
+                  ))}
                 </div>
+              </div>
+            </div>
+            <div className="grid grid-cols-2 gap-4 p-4 bg-gray-100 rounded-lg">
+              {/* Graphique des produits RAMY */}
+              <div className="bg-white p-4 rounded-xl shadow-md">
+                <h2 className="font-bold text-lg">Nombre Produit RAMY</h2>
+                <div className="flex justify-end">
+                  <button className="px-4 py-1 text-sm bg-gray-100 rounded-md">
+                    Famille ▼
+                  </button>
+                </div>
+                <ResponsiveContainer width="100%" height={150}>
+                  <BarChart data={ramyData}>
+                    <XAxis dataKey="name" tick={{ fontSize: 12 }} />
+                    <YAxis hide />
+                    <Tooltip />
+                    <Bar
+                      dataKey="value"
+                      radius={[10, 10, 0, 0]}
+                      fill="#E5E7EB"
+                      barSize={30}
+                      activeBar={{ fill: "url(#highlightGradient)" }}
+                    />
+                    <defs>
+                      <linearGradient
+                        id="highlightGradient"
+                        x1="0"
+                        y1="0"
+                        x2="0"
+                        y2="1"
+                      >
+                        <stop offset="0%" stopColor="#3B82F6" />
+                        <stop offset="100%" stopColor="#1E3A8A" />
+                      </linearGradient>
+                    </defs>
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+
+              {/* Graphique des concurrents */}
+              <div className="bg-white p-4 rounded-xl shadow-md">
+                <h2 className="font-bold text-lg">Produit Concurrents</h2>
+                <ResponsiveContainer width="100%" height={150}>
+                  <BarChart data={competitorsData}>
+                    <XAxis dataKey="name" tick={{ fontSize: 12 }} />
+                    <YAxis hide />
+                    <Tooltip />
+                    <Bar
+                      dataKey="value"
+                      radius={[10, 10, 0, 0]}
+                      fill="#E5E7EB"
+                      barSize={30}
+                    />
+                  </BarChart>
+                </ResponsiveContainer>
               </div>
             </div>
           </div>
