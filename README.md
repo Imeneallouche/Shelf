@@ -3,7 +3,7 @@
 </p>
 
 
-# Shelf : votre seule et unique solution trust us :))
+# Shelf : votre seule et unique solution
 
 <br>
 
