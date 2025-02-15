@@ -10,14 +10,17 @@
 ## Table des Matières
 
 1. [Introduction](#1-introduction)
-2. [Architecture de la Solution ](#2-architecture-de-la-solution) 
-3. [Fonctionnalités](#3-fonctionalités)  
-   - [Détection automatique de la part de linéaire avec YOLO](#détection-automatique-de-la-part-de-linéaire-avec-yolo)  
-   - Collecte automatique des données concurrentes par web scraping  
-   - Interface utilisateur et reporting  
-4. Résultats  
-5. Installation  
-6. Conclusion  
+2. [Architecture de la Solution ](#2-architecture-de-la-solution)
+   - 2.1. [Vue d’ensemble de l’architecture](#2-1-vue-densemble-de-larchitecture)
+   - 2.2. [Détails de la base de données](#2-2-détails-de-la-base-de-données)
+   - 2.3. [Flux de données dans la solution](#2-3-flux-de-données-dans-la-solution)
+3. [Fonctionnalités](#3-fonctionnalités)  
+   - 3.1. [Détection automatique de la part de linéaire avec YOLO](#détection-automatique-de-la-part-de-linéaire-avec-yolo)  
+   - 3.2. [Collecte automatique des données concurrentes par web scraping](#collecte-automatique-des-données-concurrentes-par-web-scraping)
+   - 3.3. [Interface utilisateur et reporting](#3-3-interface-utilisateur-et-reporting)
+4. [Résultats](#4-résultats) 
+5. [Installation](#5-installation)  
+6. [Conclusion](#6-conclusion)
 
 
 <br><br>
@@ -41,6 +44,9 @@ Nous avons développé une solution innovante qui automatise la collecte et l’
 ---
 
 ## 2. Architecture de la Solution
+
+![image](https://github.com/user-attachments/assets/13acf761-9911-4abd-80e7-cf8151ea132f)
+
 
 L’architecture de notre solution est conçue pour garantir une collecte, un traitement et une analyse efficace des données merchandising, tout en assurant une évolutivité et une adaptabilité à d'autres produits. Elle est composée des éléments suivants :
 
@@ -132,7 +138,7 @@ class Product(models.Model):
 ### **2.3. Flux de données dans la solution**  
 
 1. **Soumission d’une image par le client**  
-   - Le client télécharge une image du rayon via l’interface web.  
+   - Le client télécharge une image du rayon via l’interface mobile.  
    - L’image est stockée dans le serveur et envoyée au modèle YOLO pour analyse.  
 
 2. **Détection et analyse de la linéarité**  
