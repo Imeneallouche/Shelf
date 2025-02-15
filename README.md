@@ -3,7 +3,9 @@
 </p>
 
 
-# SHELF
+# Shelf : votre seule et unique solution trust us :))
+
+<br>
 
 ## Table des Matières
 
@@ -16,6 +18,9 @@
 4. Résultats  
 5. Installation  
 6. Conclusion  
+
+
+<br><br>
 
 ---
 
@@ -31,11 +36,15 @@ Le merchandising est un enjeu majeur pour les entreprises, mais il présente plu
 ### Notre Solution
 Nous avons développé une solution innovante qui automatise la collecte et l’analyse des données de merchandising. L’utilisateur prend simplement une photo des rayons d’un point de vente et notre système utilise **YOLO (You Only Look Once)** pour analyser automatiquement la part de linéaire des produits du client et des concurrents.  
 
+<br><br>
+
 ---
 
 ## 2. Architecture de la Solution
 
 L’architecture de notre solution est conçue pour garantir une collecte, un traitement et une analyse efficace des données merchandising, tout en assurant une évolutivité et une adaptabilité à d'autres produits. Elle est composée des éléments suivants :
+
+<br>
 
 ---
 
@@ -55,6 +64,8 @@ Notre architecture repose sur une approche modulaire et se divise en trois couch
 3. **Couche Stockage (Base de Données & Dataset IA)**  
    - Une base de données PostgreSQL qui stocke les informations des utilisateurs, des points de vente et des produits.  
    - Un espace de stockage pour conserver les images des rayons analysées et les datasets entraînés.  
+
+<br>
 
 ---
 
@@ -114,6 +125,7 @@ class Product(models.Model):
     price = models.FloatField()
     concurrents = models.ManyToManyField('self', blank=True)
 ```
+<br>
 
 ---
 
@@ -136,9 +148,13 @@ class Product(models.Model):
 Cette architecture assure une solution robuste, évolutive et efficace pour améliorer le suivi du merchandising et optimiser la stratégie commerciale des entreprises. 🚀
 
 
+<br><br>
+
 ---
 
 ## 3. Fonctionnalités
+
+<br>
 
 ### 3.1 Détection Automatique de la Part de Linéaire avec YOLO
 
@@ -156,6 +172,7 @@ Sortie : Pourcentages de visibilité des produits détectés
    b. Calculer le pourcentage de linéaire par rapport à l’ensemble du rayon
 5. Retourner les résultats sous forme de rapport
 ```
+<br>
 
 ### 3.2 Collecte Automatique des Données Concurrentes par Web Scraping
 
@@ -171,12 +188,15 @@ Sortie : Base de données d’images de produits
 4. Télécharger et stocker les images dans la base de données
 5. Nettoyer les images et les préparer pour l'entraînement du modèle YOLO
 ```
+<br>
 
 ### 3.3 Interface Utilisateur et Reporting
 
 - **Téléchargement d’images** : Interface intuitive pour charger des images.
 - **Visualisation des résultats** : Affichage interactif des pourcentages de linéaire et des placements des produits.
 - **Exportation des rapports** : Génération de rapports PDF et Excel avec les résultats d’analyse.
+
+<br><br>
 
 ---
 
@@ -188,32 +208,37 @@ Notre solution permet :
 - Une **objectivité accrue** grâce à une détection automatisée et standardisée.
 - Une **scalabilité** permettant d’ajouter facilement de nouveaux produits.
 
+<br><br>
+
 ---
 
 ## 5. Installation
 
 ### Prérequis
+- NextJS
+- TailwindCSS
 - Python 3.10+
 - Django Framework
 - YOLOv5 (PyTorch)
-- OpenCV, BeautifulSoup, Scrapy (pour le scraping)
-- PostgreSQL (Base de données)
+- playwright (pour le crawling des données)
+- SQLite (Base de données)
 
 ### Étapes d’Installation
 ```
-git clone https://github.com/votre-repo
-cd votre-repo
+git clone https://github.com/Imeneallouche/Shelf.git
+cd Shelf
 python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
 python manage.py migrate
 python manage.py runserver
+npm run dev
 ```
 ---
 
 ## 6. Conclusion
 
-Notre solution révolutionne le merchandising en automatisant la collecte et l’analyse des données grâce à l’IA et au web scraping. Cette approche permet aux entreprises d’optimiser leur stratégie et de prendre des décisions basées sur des **données précises et objectives**.
+Notre solution révolutionne le merchandising en automatisant la collecte et l’analyse des données grâce à l’IA et au web scraping (crawling plus en moins). Cette approche permet aux entreprises d’optimiser leur stratégie et de prendre des décisions basées sur des **données précises et objectives**.
 
 🚀 **Notre système est adaptable à tout type de produit et permet une scalabilité future.**
 
