@@ -6,10 +6,11 @@
 # SHELF
 
 ## Table des Matières
-1. Introduction  
-2. Architecture de la Solution  
-3. Fonctionnalités  
-   - Détection automatique de la part de linéaire avec YOLO  
+
+1. [Introduction](#pourquoi-tetris)
+2. [Architecture de la Solution ](#architecture-de-la-solution) 
+3. [Fonctionnalités](#fonctionalités)  
+   - [Détection automatique de la part de linéaire avec YOLO](#détection-automatique-de-la-part-de-linéaire-avec-yolo)  
    - Collecte automatique des données concurrentes par web scraping  
    - Interface utilisateur et reporting  
 4. Résultats  
@@ -34,11 +35,106 @@ Nous avons développé une solution innovante qui automatise la collecte et l’
 
 ## 2. Architecture de la Solution
 
-Notre solution est composée de plusieurs modules :
-- **Acquisition des images** : L’utilisateur télécharge une photo du rayon via une interface mobile dédiée aux merchandisers.
-- **Détection des produits** : Un modèle **YOLO** entraîné détecte les produits présents et calcule leur visibilité.
-- **Collecte des données concurrentielles** : Un **web scraper** récupère des images des produits concurrents pour enrichir la base de données d’entraînement.
-- **Analyse et reporting** : Le système génère un rapport détaillé sur la part de linéaire et la visibilité des produits.
+L’architecture de notre solution est conçue pour garantir une collecte, un traitement et une analyse efficace des données merchandising, tout en assurant une évolutivité et une adaptabilité à d'autres produits. Elle est composée des éléments suivants :
+
+---
+
+### **2.1. Vue d’ensemble de l’architecture**  
+
+Notre architecture repose sur une approche modulaire et se divise en trois couches principales :  
+
+1. **Couche Client (Front-end)**  
+   - Interface mobile où le client peut soumettre des images de linéaires et configurer les produits à analyser (produit cible et concurrents).  
+   - Interface utilisateur simple pour visualiser les résultats d’analyse sous forme de pourcentages et graphiques.  
+
+2. **Couche Application (Back-end & Services d’IA)**  
+   - Un serveur Django qui gère l’authentification, la gestion des utilisateurs et le stockage des images.  
+   - Un module d’analyse basé sur YOLO qui détecte et identifie les produits sur les images soumises.  
+   - Un module de web scraping qui collecte automatiquement des images de produits concurrents pour entraîner le modèle YOLO.  
+
+3. **Couche Stockage (Base de Données & Dataset IA)**  
+   - Une base de données PostgreSQL qui stocke les informations des utilisateurs, des points de vente et des produits.  
+   - Un espace de stockage pour conserver les images des rayons analysées et les datasets entraînés.  
+
+---
+
+### **2.2. Détails de la base de données**  
+
+Nous avons structuré notre base de données pour assurer une gestion efficace des informations clés. Voici les modèles principaux :  
+
+#### **Modèle Utilisateur (User)**  
+L’utilisateur peut être un **Admin** ou un **Merchandiser**.  
+```python
+class User(AbstractUser):
+    ROLE_CHOICES = [('admin', 'Admin'), ('merchandiser', 'Merchandiser')]
+    role = models.CharField(max_length=20, choices=ROLE_CHOICES, default='merchandiser')
+```
+
+#### **Modèle Merchandiser**  
+Le merchandiser est associé à une liste de **points de vente** qu’il doit visiter quotidiennement.  
+```python
+class Merchandiser(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    full_name = models.CharField(max_length=255)
+    phone_number = models.CharField(max_length=20)
+    email = models.EmailField(unique=True)
+    localisation = models.CharField(max_length=255)
+```
+
+#### **Modèle Point de Vente**  
+Chaque point de vente est identifié par un ID et contient des commandes, la visibilité des produits et l’espace occupé par les produits.  
+```python
+class PointDeVente(models.Model):
+    id = models.AutoField(primary_key=True)
+    localisation = models.CharField(max_length=255)
+    width = models.FloatField()
+    height = models.FloatField()
+    length = models.FloatField()
+```
+
+#### **Modèle Commande (Command)**  
+Une commande est associée à un point de vente et contient une liste de produits commandés.  
+```python
+class Command(models.Model):
+    id = models.AutoField(primary_key=True)
+    point_de_vente = models.ForeignKey(PointDeVente, on_delete=models.CASCADE)
+    date_commande = models.DateField(auto_now_add=True)
+```
+
+#### **Modèle Produit (Product)**  
+Chaque produit a une marque, un type et des dimensions. Il possède aussi une liste de concurrents.  
+```python
+class Product(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=255)
+    type = models.CharField(max_length=255)
+    length = models.FloatField()
+    height = models.FloatField()
+    width = models.FloatField()
+    price = models.FloatField()
+    concurrents = models.ManyToManyField('self', blank=True)
+```
+
+---
+
+### **2.3. Flux de données dans la solution**  
+
+1. **Soumission d’une image par le client**  
+   - Le client télécharge une image du rayon via l’interface web.  
+   - L’image est stockée dans le serveur et envoyée au modèle YOLO pour analyse.  
+
+2. **Détection et analyse de la linéarité**  
+   - YOLO identifie les produits du client et les produits concurrents dans l’image.  
+   - L’algorithme calcule les pourcentages de linéarité de chaque marque.  
+
+3. **Affichage des résultats**  
+   - Les résultats (visibilité du produit, concurrents, position) sont stockés en base de données.  
+   - L’interface web permet de visualiser ces données sous forme de graphiques et tableaux.  
+
+---
+
+Cette architecture assure une solution robuste, évolutive et efficace pour améliorer le suivi du merchandising et optimiser la stratégie commerciale des entreprises. 🚀
+
 
 ---
 
