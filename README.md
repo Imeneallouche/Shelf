@@ -7,9 +7,9 @@
 
 ## Table des Matières
 
-1. [Introduction](#pourquoi-tetris)
-2. [Architecture de la Solution ](#architecture-de-la-solution) 
-3. [Fonctionnalités](#fonctionalités)  
+1. [Introduction](#1-introduction)
+2. [Architecture de la Solution ](#2-architecture-de-la-solution) 
+3. [Fonctionnalités](#3-fonctionalités)  
    - [Détection automatique de la part de linéaire avec YOLO](#détection-automatique-de-la-part-de-linéaire-avec-yolo)  
    - Collecte automatique des données concurrentes par web scraping  
    - Interface utilisateur et reporting  
